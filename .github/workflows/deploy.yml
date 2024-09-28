@@ -1,0 +1,25 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      - new-branch-name  # Troque pelo nome da sua branch (ex: master/main)
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run SSH commands on AWS EC2
+      uses: appleboy/ssh-action@v0.1.2
+      with:
+        host: 52.14.51.192               # Substitua pelo IP da sua instância AWS
+        username: ubuntu                 # Username padrão do Ubuntu na AWS
+        key: ${{ secrets.AWS_PRIVATE_KEY }} # Use o secret que criamos
+        passphrase: ""                   # Se sua chave não tiver senha, mantenha vazio
+        script: |
+          cd ~/Icarus-Prometheus  # Caminho do projeto na AWS
+          git pull origin new-branch-name  # Puxa as mudanças da branch especificada
