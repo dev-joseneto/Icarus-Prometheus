@@ -1,0 +1,10 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/devoj/BotDiscord  # Caminho onde o código será implantado
+hooks:
+  AfterInstall:
+    - location: scripts/start_bot.sh
+      timeout: 300
+      runas: devoj  # Usuário que executará o script
